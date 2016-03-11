@@ -1,3 +1,6 @@
+close all
+
+%% Aufgabe 1a: Illustrate de Casteljau algorithm
 %Control points
 b = [1 3 5.5 6.5 5 4;2 4 4.5 2.5 1 2.5];
 %parameters to evaluate
@@ -21,3 +24,20 @@ hold off;
 decasteljau(b, 0.3);
 
 title('Bézier Curve')
+
+%% Aufgabe 1b: Compare bezier curves to approximations
+
+% Plot Bezier curve
+figure('Name', '1b: Compare Bézier curve and approximations')
+plot(c(1,:), c(2,:), '-b');
+hold on
+
+% Plot approximations
+col = {'--c', '--g', '--r'};
+for i = 1:3
+    p = controlPolygon(b, i);
+    plot(p(1,:), p(2,:), col{i});
+end
+legend('Bézier curve', '1 iteration', '2 iterations', '3 iterations');
+
+hold off
