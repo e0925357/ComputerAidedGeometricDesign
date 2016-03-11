@@ -4,12 +4,14 @@ function [ p ] = controlPolygon( P, i )
 
 % Init
 n = size(P, 2)-1;
-d = size(P, 1);
+dim = size(P, 1);
 t = 0.5;
-b = zeros(d, n + 1, n + 1);
+b = zeros(dim, n + 1, n + 1);
 b(:, :, 1) = P;
-p = zeros(size(b,1), 2*n +1);
-p(:,1,1) = P(:,1);
+c = zeros(dim, n + 1);
+c(:,1) = P(:,1);
+d = zeros(dim, n + 1);
+d(:, n + 1) = P(:, n + 1); 
 
 % de Casteljau iterations
 for j = 1 : n
@@ -20,15 +22,18 @@ for j = 1 : n
     end
 
     % ci
-    p(:,j + 1) = b(:,1, j + 1);
+    c(:, j + 1) = b(:,1, j + 1);
 
     % di 
-    p(:,2*n + 2 - j) = b(:, n + 2 - j , j);
+    d(:, n + 1 - j) = b(:, n + 1 - j , j + 1);
 end
     
 if (i > 1)
-    p = controlPolygon(p, i-1);
+    c = controlPolygon(c, i-1);
+    d = controlPolygon(d, i-1);
 end
+
+p = [c d(:,2:end)];
 
 end
 
