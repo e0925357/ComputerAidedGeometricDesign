@@ -16,4 +16,8 @@ plot(b(1, :), b(2, :), '-r' )
 hold on;
 plot(c(1,:), c(2,:), '-b')
 hold off;
+
+%visualize the algorithm
+decasteljau(b, 0.3);
+
 title('Bézier Curve')
