@@ -36,3 +36,31 @@ legend('original polygon', 'original curve', 'extended polygon', 'extended curve
 % Nodes
 uA = [0 0.25 0.5 0.75 1];
 uB = [0 0 0 0.3 0.5 0.5 0.6 1 1 1];
+
+ua = zeros(size(uA, 2) - 3, size(t,2));
+ub = zeros(size(uB, 2) - 3, size(t,2));
+for i = 1 : size(t, 2)
+ua(:, i) = evaluateBsplineBasis(uA, 2, t(i));
+ub(:, i) = evaluateBsplineBasis(uB, 2, t(i));
+end
+
+figure
+plot(t, ua(1, :), '-r')
+hold on
+plot(t, ua(2, :), ':b')
+hold off
+legend('i=1', 'i=2')
+title('BSpline Basis uA, degree 2')
+
+figure
+plot(t, ub(1, :), '-r')
+hold on
+plot(t, ub(2, :), ':b')
+plot(t, ub(3, :), '-.g')
+plot(t, ub(4, :), '--o')
+plot(t, ub(5, :), '.m')
+plot(t, ub(6, :), '*c')
+plot(t, ub(7, :), '-*k')
+hold off
+legend('i=1', 'i=2', 'i=3', 'i=4', 'i=5', 'i=6', 'i=7')
+title('BSpline Basis uB, degree 2')
