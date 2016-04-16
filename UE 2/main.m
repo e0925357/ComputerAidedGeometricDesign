@@ -39,33 +39,114 @@ legend('original polygon', 'original curve', 'extended polygon', 'extended curve
 uA = [0 0.25 0.5 0.75 1];
 uB = [0 0 0 0.3 0.5 0.5 0.6 1 1 1];
 
-ua = zeros(size(uA, 2) - 3, size(t,2));
-ub = zeros(size(uB, 2) - 3, size(t,2));
+ua0 = zeros(size(uA, 2) - 1, size(t,2));
+ua1 = zeros(size(uA, 2) - 2, size(t,2));
+ua2 = zeros(size(uA, 2) - 3, size(t,2));
+ub0 = zeros(size(uB, 2) - 1, size(t,2));
+ub1 = zeros(size(uB, 2) - 2, size(t,2));
+ub2 = zeros(size(uB, 2) - 3, size(t,2));
+
 for i = 1 : size(t, 2)
-ua(:, i) = evaluateBsplineBasis(uA, 2, t(i));
-ub(:, i) = evaluateBsplineBasis(uB, 2, t(i));
+    ua0(:, i) = evaluateBsplineBasis(uA, 0, t(i));
+    ub0(:, i) = evaluateBsplineBasis(uB, 0, t(i));
+    ua1(:, i) = evaluateBsplineBasis(uA, 1, t(i));
+    ub1(:, i) = evaluateBsplineBasis(uB, 1, t(i));
+    ua2(:, i) = evaluateBsplineBasis(uA, 2, t(i));
+    ub2(:, i) = evaluateBsplineBasis(uB, 2, t(i));
 end
 
+ua0s = sum(ua0, 1);
+ua1s = sum(ua1, 1);
+ua2s = sum(ua2, 1);
+
+ub0s = sum(ub0, 1);
+ub1s = sum(ub1, 1);
+ub2s = sum(ub2, 1);
+
 figure
-plot(t, ua(1, :), '-r')
+subplot(2, 2, 1)
+plot(t, ua0s, '--.k')
 hold on
-plot(t, ua(2, :), ':b')
+plot(t, ua0(1, :), '-r')
+plot(t, ua0(2, :), ':b')
+plot(t, ua0(3, :), '-.g')
+plot(t, ua0(4, :), '--o')
 hold off
-legend('i=1', 'i=2')
+axis([0 1 0 1.1])
+legend('sum', 'i=1', 'i=2', 'i=3', 'i=4')
+title('BSpline Basis uA, degree 0')
+
+subplot(2, 2, 2)
+plot(t, ua1s, '--.k')
+hold on
+plot(t, ua1(1, :), '-r')
+plot(t, ua1(2, :), ':b')
+plot(t, ua1(3, :), '-.g')
+hold off
+axis([0 1 0 1.1])
+legend('sum', 'i=1', 'i=2', 'i=3')
+title('BSpline Basis uA, degree 1')
+
+subplot(2, 2, 3)
+plot(t, ua2s, '--.k')
+hold on
+plot(t, ua2(1, :), '-r')
+plot(t, ua2(2, :), ':b')
+hold off
+axis([0 1 0 1.1])
+legend('sum', 'i=1', 'i=2')
 title('BSpline Basis uA, degree 2')
 
 figure
-plot(t, ub(1, :), '-r')
+subplot(2, 2, 1)
+plot(t, ub0s, '--.k')
 hold on
-plot(t, ub(2, :), ':b')
-plot(t, ub(3, :), '-.g')
-plot(t, ub(4, :), '--o')
-plot(t, ub(5, :), '.m')
-plot(t, ub(6, :), '*c')
-plot(t, ub(7, :), '-*k')
+plot(t, ub0(1, :), '-r')
+plot(t, ub0(2, :), ':b')
+plot(t, ub0(3, :), '-.g')
+plot(t, ub0(4, :), '--o')
+plot(t, ub0(5, :), '.m')
+plot(t, ub0(6, :), '*c')
+plot(t, ub0(7, :), '-*k')
+plot(t, ub0(8, :), 'xy')
+plot(t, ub0(9, :), '-xr')
 hold off
-legend('i=1', 'i=2', 'i=3', 'i=4', 'i=5', 'i=6', 'i=7')
+axis([0 1 0 1.1])
+legend('sum', 'i=1', 'i=2', 'i=3', 'i=4', 'i=5', 'i=6', 'i=7', 'i=8', 'i=9')
+title('BSpline Basis uB, degree 0')
+
+subplot(2, 2, 2)
+plot(t, ub0s, '--.k')
+hold on
+plot(t, ub1(1, :), '-r')
+plot(t, ub1(2, :), ':b')
+plot(t, ub1(3, :), '-.g')
+plot(t, ub1(4, :), '--o')
+plot(t, ub1(5, :), '.m')
+plot(t, ub1(6, :), '*c')
+plot(t, ub1(7, :), '-*k')
+plot(t, ub0(8, :), 'xy')
+hold off
+axis([0 1 0 1.1])
+legend('sum', 'i=1', 'i=2', 'i=3', 'i=4', 'i=5', 'i=6', 'i=7', 'i=8')
+title('BSpline Basis uB, degree 1')
+
+
+subplot(2, 2, 3)
+plot(t, ub2s, '--.k')
+hold on
+plot(t, ub2(1, :), '-r')
+plot(t, ub2(2, :), ':b')
+plot(t, ub2(3, :), '-.g')
+plot(t, ub2(4, :), '--o')
+plot(t, ub2(5, :), '.m')
+plot(t, ub2(6, :), '*c')
+plot(t, ub2(7, :), '-*k')
+hold off
+axis([0 1 0 1.1])
+legend('sum', 'i=1', 'i=2', 'i=3', 'i=4', 'i=5', 'i=6', 'i=7')
 title('BSpline Basis uB, degree 2')
+
 
 %% 2.3 
 % Illustrate the deBoor algorithm for one parameter
