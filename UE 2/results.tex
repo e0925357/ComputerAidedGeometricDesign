@@ -14,9 +14,9 @@
 \section{Task 1}
 Given the scalars $a < b < c$ we want to extend a cubic Bézier-curve
 \[ b(t) = \sum^{3}_{i=0}{b_iB^3_i(t)}\qquad ,t\in[a,b]\]
-by adding a new cubic Bezier-curve in the interval $[b,c]$ with the first control point equal to the last control point of the given curve and the last control point equal to the point q. We also want $C^2$ continuity at $t=b$. Let $b_i$ be the control points of the curve in the interval $[a,b]$ and $\bar{b}_i$ the control points of the curve in the interval $[b,c]$. An exaple of this can be seen in figure \ref{fig:1}. For $C^0$ continuity the following must hold:
+by adding a new cubic Bezier-curve in the interval $[b,c]$ with the first control point equal to the last control point of the given curve and the last control point equal to the point q. We also want $C^2$ continuity at $t=b$. Let $b_i$ be the control points of the curve in the interval $[a,b]$ and $\bar{b}_i$ the control points of the curve in the interval $[b,c]$. An example of this can be seen in Figure \ref{fig:1}. For $C^0$ continuity the following must hold:
 \[ I: b_3 = \bar{b_0}\]
-For $C^1$ the first deviation must be equal, so we demand:
+For $C^1$ the first derivative must be equal, so we demand:
 \begin{eqnarray*}
 \Delta b_2 = b_3 - b_2 & \overset{!}{=} & \Delta \bar{b_0} = \bar{b}_1 - \bar{b}_0 \\
 b_3 - b_2 & \overset{I}{=} & \bar{b}_1 - b_3 \\
@@ -38,7 +38,7 @@ So the new points $\bar{b}_0$ to $\bar{b}_3$ are defined as follows:
 \bar{b}_2 & = & 4b_3 - 4b_2 + b_1 \\
 \bar{b}_3 & = & q \\
 \end{eqnarray*}
-Because we have used up all free control points of the second curve we cannot create a $C^4$ or higher continuity at the stitching point ($t=b$).
+Because we have used up all free control points of the second curve we cannot create a $C^3$ or higher continuity at the stitching point ($t=b$).
 
 \begin{figure}[hbtp]
 \caption{Example of 2 stitched Bèzier curves}
@@ -48,7 +48,7 @@ Because we have used up all free control points of the second curve we cannot cr
 \end{figure}
 
 \section{Task 2}
-For the visualization of the basis functions of the knot-vectors please refer to figure \ref{fig:2a} and \ref{fig:2b}! We can see that if we have a degree that's greater or equal to the knot multiplicity of the first and last knot the sum of all values for each valid parameter does not equal 1 any more.
+For the visualization of the basis functions of the knot-vectors please refer to Figures \ref{fig:2a} and \ref{fig:2b}! We can see that if we have a degree that's greater or equal to the knot multiplicity of the first and last knot the sum of all values for each valid parameter does not equal 1 any more.
 
 \begin{figure}[hbtp]
 \caption{Knot-vector: $\{0, 0.25, 0.5, 0.75, 1\}$}
