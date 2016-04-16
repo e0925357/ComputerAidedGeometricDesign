@@ -152,7 +152,7 @@ title('BSpline Basis uB, degree 2')
 % Illustrate the deBoor algorithm for one parameter
 knots = [0 0 0 0 0.3 0.5 0.7 1 1 1];
 control = [1 3 6 8 8.5 6; 1 4 4.5 3.5 2 3.5];
-illustrateDeBoor(knots, 3, control, 0.4);
+illustrateDeBoor(knots, 3, control, t, 0.4);
 
 % Example 1: degree 2
 knots = [0 0 0 0.3 0.5 0.7 1 1 1];
@@ -186,7 +186,7 @@ subplot(1,3,1)
 plot(control(1,:), control(2,:), 'ro-.');
 hold on
 plot(bt(1,:), bt(2,:));
-legend('Control points', 'Curve');
+legend('Control points', 'Curve', 'Location', 'southeast');
 title('DeBoor: degree 2');
 hold off
 
@@ -194,7 +194,7 @@ subplot(1,3,2)
 plot(control(1,:), control(2,:), 'ro-.');
 hold on
 plot(bt1(1,:), bt1(2,:));
-legend('Control points', 'Curve');
+legend('Control points', 'Curve', 'Location', 'southeast');
 title('DeBoor: degree 3, add one knot');
 hold off
 
@@ -202,7 +202,7 @@ subplot(1,3,3)
 plot(control2(1,:), control2(2,:), 'ro-.');
 hold on
 plot(bt2(1,:), bt2(2,:));
-legend('Control points', 'Curve');
+legend('Control points', 'Curve', 'Location', 'southeast');
 title('DeBoor: degree 3, add another knot');
 hold off
 

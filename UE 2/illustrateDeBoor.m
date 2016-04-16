@@ -1,9 +1,10 @@
-function [ bt ] = illustrateDeBoor( knots, n, d, u )
+function [ bt ] = illustrateDeBoor( knots, n, d, evalPoints, u )
 %DEBOOR Compute B-spline curve and  d using de Boor's algorithm
 % knots      ...    knot vector 
 % n          ...    degree
 % d          ...    control points
-% u          ...    evaluation parameter
+% evalPoints ...    parameter values where curve is evaluated
+% u          ...    evaluation parameter for illustration
 
 % Init
 dim = size(d, 1);
@@ -27,7 +28,7 @@ end
 
 % Draw control points
 figure
-plot(d(1,:), d(2,:), 'ro-.');
+p1 = plot(d(1,:), d(2,:), 'ro-.');
 hold on
 
 % Calculate deBoor points
@@ -43,11 +44,17 @@ for r = 1:n
     waitforbuttonpress();
     
     % Draw new points
-    plot(dBoor(1, l-n+r+1:l+1, r+1), dBoor(2, l-n+r+1:l+1, r+1), 'b*-');
+    p2 = plot(dBoor(1, l-n+r+1:l+1, r+1), dBoor(2, l-n+r+1:l+1, r+1), 'b*-');
     
 end
 
-legend('Control points', 'DeBoor points');
+% Draw entire curve
+title('Press a button or click to cotinue!')
+waitforbuttonpress();
+btAll = pureDeBoor(knots, n, d, evalPoints);
+p3 = plot(btAll(1,:), btAll(2,:), 'k:');
+
+legend([p1 p2 p3], 'Control points', 'DeBoor points', 'Spline curve');
 title('DeBoor Algorithm');
 hold off
 
