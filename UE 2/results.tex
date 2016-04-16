@@ -64,4 +64,28 @@ For the visualization of the basis functions of the knot-vectors please refer to
 \label{fig:2b}
 \end{figure}
 
+\section{Task 3}
+Figure~\ref{fig:3a} illustrates how a curve point is evaluated using de Boor's algorithm. Figure~\ref{fig:3b} shows three different examples of B-splines created with de Boor's algorithm. The first curve is a quadratic spline. By adding a knot at the beginning, a cubic spline is created. Finally, another knot is added at the end, yielding a different cubic spline. In the special case of a knot vector $\{0, ..., 0, 1, ..., 1\}$, all parameters values $u$ will fall into the same knot intervall $[0,1)$ and the interpolation of two de Boor points given by formula (2.12) will reduce to $d_i^r = (1-u)\cdot d_{i.1}^{r-1} + u\cdot d_i^{r-1}$ - yielding de Casteljau's algorithm. An example is given in Figure~\ref{fig:3c} which shows that in this  case, both algorithms create the same curve.
+
+\begin{figure}[hbtp]
+\caption{De Boor evaluation scheme for knots $\{0, 0, 0, 0, 0.3, 0.5, 0.7, 1, 1, 1\}$ at parameter $0.4$}
+\centering
+\includegraphics[width=\textwidth]{DeBoorAlgorithm.png}
+\label{fig:3a}
+\end{figure}
+
+\begin{figure}[hbtp]
+\caption{B-splines created with de Boor's algorithm with knots $\{0, 0, 0, 0.3, 0.5, 0.7, 1, 1, 1\}$ (left), $\{0, 0, 0, 0, 0.3, 0.5, 0.7, 1, 1, 1\}$ (middle) and $\{0, 0, 0, 0, 0.3, 0.5, 0.7, 1, 1, 1, 1\}$(right)}
+\centering
+\includegraphics[width=\textwidth]{DeBoorCurves.png}
+\label{fig:3b}
+\end{figure}
+
+\begin{figure}[hbtp]
+\caption{Example of a special case where de Boor's algorithm reduces to de Casteljau's algorithm with knots $\{0, 0, 0, 1, 1, 1\}$}
+\centering
+\includegraphics[width=\textwidth]{DeCastVSDeBoor.png}
+\label{fig:3c}
+\end{figure}
+
 \end{document}
