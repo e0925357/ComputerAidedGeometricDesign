@@ -59,6 +59,8 @@ drawSpline(s1ChordBessel, s1ChordBesselBez, p, 'C1 Chord Bessel')
 drawSpline(s1EquiBessel, s1EquiBesselBez, p, 'C1 Equi Bessel')
 drawSpline(s1LeeBessel, s1LeeBesselBez, p, 'C1 Lee Bessel')
 
+drawComparison(p, 'Compare C1 Lee', {'FMILL', 'Bessel'}, cat(3, s1LeeFMILL, s1LeeBessel), {'--r',':b'})
+drawComparison(p, 'Compare C1 Bessel', {'Chord', 'Equi', 'Lee'}, cat(3, s1ChordBessel, s1EquiBessel, s1LeeBessel), {'--r',':b', '-.g'})
 
 % Interpolate using a C2 spline
 [s2Chord, s2ChordBez] = interpolateC2(uChord, p);
@@ -68,3 +70,7 @@ drawSpline(s1LeeBessel, s1LeeBesselBez, p, 'C1 Lee Bessel')
 drawSpline(s2Chord, s2ChordBez, p, 'C2 Chord')
 drawSpline(s2Equi, s2EquiBez, p, 'C2 Equi')
 drawSpline(s2Lee, s2LeeBez, p, 'C2 Lee')
+
+drawComparison(p, 'Compare C2', {'Chord', 'Equi', 'Lee'}, cat(3, s2Chord, s2Equi, s2Lee), {'--r',':b', '-.g'})
+drawComparison(p, 'Compare C1 and C2', {'Chord/FMILL', 'Chord/Bessel', 'Chord/C2'}, cat(3, s1ChordFMILL, s1ChordBessel, s2Chord), {'--r',':b', '-.g'})
+
