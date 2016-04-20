@@ -27,15 +27,6 @@ axis([0 1 0.5 3.5]);
 ax = gca;
 ax.XGrid = 'on';
 
-% Calculate derivatives for C1 spline
-u = 0:(1/6):1;
-m1 = getDerivative(p, u, 'FMILL');
-m2 = getDerivative(p, u, 'Bessel');
-figure
-quiver(p(1,:), p(2,:),m2(1,:), m2(2,:));
-hold on
-plot(p(1,:), p(2,:),'ro--');
-
 mChordFMILL = getDerivative(p, uChord, 'FMILL');
 mEquiFMILL = getDerivative(p, uEqui, 'FMILL');
 mLeeFMILL = getDerivative(p, uLee, 'FMILL');
