@@ -1,4 +1,5 @@
 % CAGD TASK 4.1 - Cubic spline interpolation
+close all
 
 % 2D Samples
 p = [1 3 5.5 6.5 5 4;2 4 4.5 2.5 1 2.5];
@@ -31,9 +32,9 @@ u = 0:(1/6):1;
 m1 = getDerivative(p, u, 'FMILL');
 m2 = getDerivative(p, u, 'Bessel');
 figure
-plot(p(1,:), p(2,:), 'ro');
+quiver(p(1,:), p(2,:),m2(1,:), m2(2,:));
 hold on
-plot(p(1,:)+m2(1,:), p(2,:)+m2(2,:),'b*');
+plot(p(1,:), p(2,:),'ro--');
 
 mChordFMILL = getDerivative(p, uChord, 'FMILL');
 mEquiFMILL = getDerivative(p, uEqui, 'FMILL');
