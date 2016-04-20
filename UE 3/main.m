@@ -27,13 +27,21 @@ ax = gca;
 ax.XGrid = 'on';
 
 % Calculate derivatives for C1 spline
-mChordFMILL = getDerivative(uChord, 'FMILL');
-mEquiFMILL = getDerivative(uEqui, 'FMILL');
-mLeeFMILL = getDerivative(uLee, 'FMILL');
+u = 0:(1/6):1;
+m1 = getDerivative(p, u, 'FMILL');
+m2 = getDerivative(p, u, 'Bessel');
+figure
+plot(p(1,:), p(2,:), 'ro');
+hold on
+plot(p(1,:)+m2(1,:), p(2,:)+m2(2,:),'b*');
 
-mChordBessel = getDerivative(uChord, 'Bessel');
-mEquiBessel = getDerivative(uEqui, 'Bessel');
-mLeeBessel = getDerivative(uLee, 'Bessel');
+mChordFMILL = getDerivative(p, uChord, 'FMILL');
+mEquiFMILL = getDerivative(p, uEqui, 'FMILL');
+mLeeFMILL = getDerivative(p, uLee, 'FMILL');
+
+mChordBessel = getDerivative(p, uChord, 'Bessel');
+mEquiBessel = getDerivative(p, uEqui, 'Bessel');
+mLeeBessel = getDerivative(p, uLee, 'Bessel');
 
 % Interpolate using a C1 spline
 s1ChordFMILL = interpolateC1(uChord, p, mChordFMILL);
