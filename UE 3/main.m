@@ -3,10 +3,28 @@
 % 2D Samples
 p = [1 3 5.5 6.5 5 4;2 4 4.5 2.5 1 2.5];
 
+figure
+plot(p(1,:), p(2,:))
+
 % Calculate knots
-uChord = getKnots(p, 'ChordLength');
 uEqui = getKnots(p, 'Equidistant');
+uChord = getKnots(p, 'ChordLength');
 uLee = getKnots(p, 'Lee');
+
+y1 = ones(1, size(uEqui, 2));
+y2 = ones(1, size(uChord, 2)).*2;
+y3 = ones(1, size(uLee, 2)).*3;
+
+figure
+plot(uEqui, y1, '-X')
+hold on
+plot(uChord, y2, '--X')
+plot(uLee, y3, '-.X')
+hold off
+legend('Equidistant', 'ChordLength', 'Lee')
+axis([0 1 0.5 3.5]);
+ax = gca;
+ax.XGrid = 'on';
 
 % Calculate derivatives for C1 spline
 mChordFMILL = getDerivative(uChord, 'FMILL');
