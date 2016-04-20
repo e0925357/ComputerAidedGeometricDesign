@@ -20,26 +20,25 @@ for i = 2:k-1
     A(i, i-1:i+1) = [a1 a2 a3];
 end
 
-% Init r
+% Init right side
 r = zeros(dim,k);
 r(:,1) = (3/(u(2)-u(1))) * (p(:,2) - p(:,1));
 r(:,k) = (3/(u(k)-u(k-1))) * (p(:,k) - p(:,k-1));
+for i = 2:k-1
+    p1 = (u(i+1)-u(i))/(u(i)-u(i-1)) * (p(:,i) - p(:,i-1));
+    p2 = (u(i)-u(i-1))/(u(i+1)-u(i)) * (p(:,i+1) - p(:,i));
+    r(:,i) = 3 * ( p1 +  p2);    
+end
 
-% Init m
+% Init derivative vector with natural border conditions
 m = zeros(dim,k);
 m(:,1) = r(:,1);
 m(:,k) = r(:,k);
 
+
+% Solve linear system coordinatewise
 for d = 1:dim
-    m(d,2) = r(d,1) - 2*m(d,1);
-    for i = 2:k-1
-        m1 = m(d,i-1) * (u(i+1)-u(i));
-        m2 = 2 * m(d, i) * (u(i+1)-u(i-1));
-        p1 = (u(i+1)-u(i))/(u(i)-u(i-1)) * (p(d,i) - p(d,i-1));
-        p2 = (u(i)-u(i-1))/(u(i+1)-u(i)) * (p(d,i+1) - p(d,i));
-        m3 = 3 * ( p1 +  p2);
-        m(d,i+1)= (m3 - m2 - m1) / (u(i) - u(i-1));
-    end
+    m(d,:) = A \ (r(d,:))';
 end
 
 %% Interpolate
