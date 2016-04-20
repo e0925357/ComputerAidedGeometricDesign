@@ -1,6 +1,4 @@
 function drawSpline( s, bezierPoints, p, titelStr )
-%DRAWSPLINE Summary of this function goes here
-%   Detailed explanation goes here
 
 figure
 hold on

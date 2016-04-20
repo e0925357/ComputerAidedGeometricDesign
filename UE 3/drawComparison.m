@@ -1,6 +1,4 @@
 function drawComparison( p, titelStr, names, curves, styles )
-%DRAWCOMPARISON Summary of this function goes here
-%   Detailed explanation goes here
 
 figure
 hold on
