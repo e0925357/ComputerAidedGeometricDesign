@@ -44,13 +44,13 @@ mChordBessel = getDerivative(p, uChord, 'Bessel');
 mEquiBessel = getDerivative(p, uEqui, 'Bessel');
 mLeeBessel = getDerivative(p, uLee, 'Bessel');
 
-% Interpolate using a C1 spline
-s1ChordFMILL = interpolateC1(uChord, p, mChordFMILL);
-s1EquiFMILL = interpolateC1(uEqui, p, mEquiFMILL);
-s1LeeFMILL = interpolateC1(uLee, p, mLeeFMILL);
-s1ChordBessel = interpolateC1(uChord, p, mChordBessel);
-s1EquiBessel = interpolateC1(uEqui, p, mEquiBessel);
-s1LeeBessel = interpolateC1(uLee, p, mLeeBessel);
+% % Interpolate using a C1 spline
+% s1ChordFMILL = interpolateC1(uChord, p, mChordFMILL);
+% s1EquiFMILL = interpolateC1(uEqui, p, mEquiFMILL);
+% s1LeeFMILL = interpolateC1(uLee, p, mLeeFMILL);
+% s1ChordBessel = interpolateC1(uChord, p, mChordBessel);
+% s1EquiBessel = interpolateC1(uEqui, p, mEquiBessel);
+% s1LeeBessel = interpolateC1(uLee, p, mLeeBessel);
 
 % Interpolate using a C2 spline
 s2Chord = interpolateC2(uChord, p);
