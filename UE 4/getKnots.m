@@ -1,11 +1,11 @@
-function [ u ] = getKnots( p, method )
+function [ u ] = getKnots( p, method, n )
 %GETLEEKNOTS Computes the knots of the given curve points.
 %   p      ... the sample points of the curve
 %   method ... the method to generate the knotvector with.
 
 switch(method)
     case 'Equidistant'
-        u = Equidistant(p);
+        u = Equidistant(p, n);
     case 'ChordLength'
         u = ChordLength(p);
     case 'Lee'
@@ -15,8 +15,11 @@ switch(method)
 end
 end
 
-function [u] = Equidistant(p)
-    u = (0 : size(p, 2)-1)/(size(p, 2)-1); % the knots are equally far apart
+function [u] = Equidistant(p, n)
+    m = size(p,2);
+    u(1:n) = 0;
+    u(m-n+1:m) = 1;
+    u(n+1:m-n) = (0 : m-1 -2*n)/(m-1 -2*n); % the knots are equally far apart
 end
 
 function [u] = ChordLength(p)

@@ -1,17 +1,7 @@
-function [ y ] = evaluateBsplineBasis( U, degree, t )
+function [ y ] = evaluateBsplineBasis( U, degree, index, t )
 %EVALUATEBSPLINEBASIS Evaluates the basis function for all possible points
 %in U for the parameter t.
 
-%Allocate memory for the output
-y = zeros(size(U, 2) - degree - 1, 1);
-
-%Evaluate the current parameter at all possible indices
-for index = 1 : size(U, 2) - degree - 1;
-    y(index) = evaluate(U, index, degree, t);
-end
-end
-
-function y = evaluate(U, index, degree, t)
 %Is the degree 0?
 if degree <= 0
    %The value is 1 if t is between the knots.
@@ -32,12 +22,12 @@ else
     
     if (denom1 ~= 0)
         %Compute the first value recursively
-        val1 = evaluate(U, index, degree-1, t) * (t - U(index))/denom1;
+        val1 = evaluateBsplineBasis(U, degree-1, index, t) * (t - U(index))/denom1;
     end
     
     if (denom2 ~= 0)
         %Compute the second value recursively
-        val2 = evaluate(U, index + 1, degree - 1, t) * (U(index + degree + 1) - t)/denom2;
+        val2 = evaluateBsplineBasis(U, degree - 1, index + 1, t) * (U(index + degree + 1) - t)/denom2;
     end
     
     %Combine the values to the final result
