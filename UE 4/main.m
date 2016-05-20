@@ -5,7 +5,7 @@ dbstop error
 % Spline degree
 n = 3;
 
-lambda = 0.5;
+lambda = 0.1;
 
 %Sample new points?
 samplePoints = false;
@@ -56,3 +56,16 @@ xlim([0 100])
 hold off
 
 %% B: Parameter correction
+d = approximateDataHoschek(p, u, lambda, n, k, 0.001);
+
+t = 0:0.01:1;
+s = pureDeBoor(u, n, d, t);
+
+figure
+plot(d(1,:), d(2,:), 'ro-.');
+hold on
+plot(s(1,:), s(2,:));
+plot(p(1,:), p(2, :), 'g*');
+legend('Control points', 'Curve', 'Sample points', 'Location', 'southeast');
+title('Spline Approximation');
+hold off
