@@ -33,7 +33,7 @@ for k = 1:numPoints
     % Special case u=1:
     if (u==1)
         for i=1:numControl
-            bt(:,k) = bt(:,k) + evaluateBsplineBasis(knots, n, i, 1);
+            bt(:,k) = bt(:,k) + evaluateBsplineBasis(knots, n, i, 1)*d(:, i);
         end
         
         continue;

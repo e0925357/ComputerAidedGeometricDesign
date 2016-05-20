@@ -12,9 +12,11 @@ s = pureDeBoor(u, n, d, u);
 sPrime = evalSplinePrime(u, n, u, d);
 sPrimeNorm = sqrt(sum(sPrime.^2, 1));
 sPrimeNormalized = sPrime./ repmat(sPrimeNorm,2,1);
+sPrimeNormalized(isnan(sPrimeNormalized)) = 0;
 v = p - s;
 vNorm = sqrt(sum(v.^2, 1));
 vNormalized = v./ repmat(vNorm,2,1);
+vNormalized(isnan(vNormalized)) = 0;
 
 % Count interation
 it = 0;
@@ -22,7 +24,8 @@ it = 0;
 while (~isempty(dot(vNormalized,sPrimeNormalized,2)>tol) && it < maxIter)
     
     % Calculate new parameters
-    h = (dot((p-s),sPrime,1)) ./ sPrimeNorm;
+    h = (dot((vNormalized),sPrimeNormalized,1)) ./ (sPrimeNorm.*sPrimeNorm);
+    h(isnan(h)) = 0;
     uNew = u + h;
     uNew = (uNew - uNew(1) )/ ( uNew(end) - uNew(1));
     
@@ -34,9 +37,11 @@ while (~isempty(dot(vNormalized,sPrimeNormalized,2)>tol) && it < maxIter)
     sPrime = evalSplinePrime(uNew, n, uNew, d);
     sPrimeNorm = sqrt(sum(sPrime.^2, 1));
     sPrimeNormalized = sPrime./ repmat(sPrimeNorm,2,1);
+    sPrimeNormalized(isnan(sPrimeNormalized)) = 0;
     v = p - s;
     vNorm = sqrt(sum(v.^2, 1));
     vNormalized = v./ repmat(vNorm,2,1);
+    vNormalized(isnan(vNormalized)) = 0;
     
     % Prepare next iteration
     u = uNew;
