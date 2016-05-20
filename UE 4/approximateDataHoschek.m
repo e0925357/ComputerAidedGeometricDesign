@@ -52,8 +52,13 @@ function sPrime =  evalSplinePrime(u, n, t, d)
     sPrime = zeros(2,numPoints);
 
     for p = 1:numPoints
+        
+        % Forward operator
         for i = 1:k-1
             sPrime(:,p) = sPrime(:,p) + evaluateBsplineBasis(u, n, i, t(p)) * (d(:,i+1) - d(:,i)) ;
         end 
+        
+        % Last curve point: backward operator
+        sPrime(:,p) = sPrime(:,p) + evaluateBsplineBasis(u, n, k, t(p)) * (d(:,k-1) - d(:,k)) ;
     end
 end
