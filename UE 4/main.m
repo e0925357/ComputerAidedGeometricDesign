@@ -56,7 +56,7 @@ xlim([0 100])
 hold off
 
 %% B: Parameter correction
-d = approximateDataHoschek(p, u, lambda, n, k, 0.001);
+d = approximateDataHoschek(p, u, lambda, n, k, 0.001, 100);
 
 t = 0:0.01:1;
 s = pureDeBoor(u, n, d, t);

@@ -1,4 +1,4 @@
-function [ d ] = approximateDataHoschek( p, u, lambda, n, k, tol  )
+function [ d ] = approximateDataHoschek( p, u, lambda, n, k, tol, maxIter  )
 %APPROXIMATEDATAHOSCHEK Approximate 2xm data p with B-spline of degree n with knot
 %vector u, k control points and smoothing factor lambda and performs
 %Hoschek parameter correction until the error vector is orthogonal to
@@ -10,13 +10,19 @@ s = pureDeBoor(u, n, d, u);
 
 % Error
 sPrime = evalSplinePrime(u, n, u, d);
+sPrimeNorm = sqrt(sum(sPrime.^2, 1));
+sPrimeNormalized = sPrime./ repmat(sPrimeNorm,2,1);
 v = p - s;
+vNorm = sqrt(sum(v.^2, 1));
+vNormalized = v./ repmat(vNorm,2,1);
 
-while (~isempty(dot(v,sPrime,2)>tol))
+% Count interation
+it = 0;
+
+while (~isempty(dot(vNormalized,sPrimeNormalized,2)>tol) && it < maxIter)
     
     % Calculate new parameters
-    sPrimeNorm = repmat(sqrt(sum(sPrime.^2, 1)), 2,1);
-    h = (dot((p-s),sPrime,2)) ./ sPrimeNorm;
+    h = (dot((p-s),sPrime,1)) ./ sPrimeNorm;
     uNew = u + h;
     uNew = (uNew - uNew(1) )/ ( uNew(end) - uNew(1));
     
@@ -26,9 +32,15 @@ while (~isempty(dot(v,sPrime,2)>tol))
     
     % Calculate new error
     sPrime = evalSplinePrime(uNew, n, uNew, d);
+    sPrimeNorm = sqrt(sum(sPrime.^2, 1));
+    sPrimeNormalized = sPrime./ repmat(sPrimeNorm,2,1);
     v = p - s;
+    vNorm = sqrt(sum(v.^2, 1));
+    vNormalized = v./ repmat(vNorm,2,1);
     
+    % Prepare next iteration
     u = uNew;
+    it = it +1;
 
 end
 

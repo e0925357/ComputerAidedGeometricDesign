@@ -30,14 +30,21 @@ for k = 1:numPoints
     % Get respective interval
     l = bin(k) - 1; % index shift s.t. first bin has index 0
     
+    % Special case u=1:
+    if (u==1)
+        for i=1:numControl
+            bt(:,k) = bt(:,k) + evaluateBsplineBasis(knots, n, i, 1);
+        end
+        
+        continue;
+    end
+    
     % Skip points that are out of range
     if (l - n < 0 || l+n+1 > numKnots || l+1 > numControl)
         bt(:, k) = NaN;
         continue;
     end
-    
-    
-    
+       
     % Calculate deBoor points
     for r = 1:n
         % Iterate over affected control points
