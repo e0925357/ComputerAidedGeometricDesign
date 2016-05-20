@@ -24,7 +24,7 @@ it = 0;
 while (~isempty(dot(vNormalized,sPrimeNormalized,2)>tol) && it < maxIter)
     
     % Calculate new parameters
-    h = (dot((vNormalized),sPrimeNormalized,1)) ./ (sPrimeNorm.*sPrimeNorm);
+    h = (dot((p - s),sPrime,1)) ./ (sPrimeNorm.*sPrimeNorm);
     h(isnan(h)) = 0;
     uNew = u + h;
     uNew = (uNew - uNew(1) )/ ( uNew(end) - uNew(1));
