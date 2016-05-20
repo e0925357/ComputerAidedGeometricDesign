@@ -59,6 +59,6 @@ function sPrime =  evalSplinePrime(u, n, t, d)
         end 
         
         % Last curve point: backward operator
-        sPrime(:,p) = sPrime(:,p) + evaluateBsplineBasis(u, n, k, t(p)) * (d(:,k-1) - d(:,k)) ;
+        sPrime(:,p) = sPrime(:,p) + evaluateBsplineBasis(u, n, k, t(p)) * (d(:,k) - d(:,k-1)) ;
     end
 end
