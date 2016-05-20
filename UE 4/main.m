@@ -56,7 +56,7 @@ xlim([0 100])
 hold off
 
 %% B: Parameter correction
-d = approximateDataHoschek(p, u, lambda, n, k, 0.001, 100);
+[d, uNew] = approximateDataHoschek(p, u, lambda, n, k, 0.001, 100);
 
 t = 0:0.01:1;
 s = pureDeBoor(u, n, d, t);
@@ -69,3 +69,5 @@ plot(p(1,:), p(2, :), 'g*');
 legend('Control points', 'Curve', 'Sample points', 'Location', 'southeast');
 title('Spline Approximation');
 hold off
+
+visualizeBasis(uNew, n);
