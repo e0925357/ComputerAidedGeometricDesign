@@ -15,11 +15,11 @@ close all
 p = [xData'; yData'];
 m = size(p, 2);
 
-% Init control points
-k = round(m/2);
-
 % Get equidistant knots + add edge knot n times
 u = getKnots(p, 'Equidistant', n);
+
+% Init control points
+k = size(u, 2) - n - 1;
 
 %% A: Spline approximation
 d = approximateData(p, u, lambda, n, k);
