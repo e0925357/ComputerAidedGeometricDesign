@@ -42,32 +42,36 @@ k = size(u, 2) - n - 1;
 d = approximateData(p, u, lambda, n, k);
 
 t = 0:0.001:1;
-s = pureDeBoor(u, n, d, t);
+s = bSplinePoint(u, n, d, t);
+su = bSplinePoint(u,n,d,u);
 
 figure
 plot(d(1,:), d(2,:), 'ro-.');
 hold on
 plot(s(1,:), s(2,:));
 plot(p(1,:), p(2, :), 'g*');
-legend('Control points', 'Curve', 'Sample points', 'Location', 'southeast');
+plot(su(1,:), su(2, :), 'm+');
+legend('Control points', 'Curve', 'Sample points', 'Knot Points', 'Location', 'southeast');
 title('Spline Approximation');
 ylim([0 100])
 xlim([0 100])
 hold off
 
 %% B: Parameter correction
-[d, uNew] = approximateDataHoschek(p, u, lambda, n, k, 0.001, 100);
+[d, uNew] = approximateDataHoschek(p, u, lambda, n, k, 0.001, 100, false);
 
-t = 0:0.01:1;
-s = pureDeBoor(u, n, d, t);
+t = 0:0.001:1;
+s = bSplinePoint(uNew, n, d, t);
+su = bSplinePoint(uNew,n,d,uNew);
 
 figure
 plot(d(1,:), d(2,:), 'ro-.');
 hold on
 plot(s(1,:), s(2,:));
 plot(p(1,:), p(2, :), 'g*');
-legend('Control points', 'Curve', 'Sample points', 'Location', 'southeast');
-title('Spline Approximation');
+plot(su(1,:), su(2, :), 'm+');
+legend('Control points', 'Curve', 'Sample points', 'Knot Points', 'Location', 'southeast');
+title('Spline Hoschek Approximation');
 hold off
 
 visualizeBasis(uNew, n);
