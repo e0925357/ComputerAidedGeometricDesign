@@ -1,6 +1,7 @@
-function [ d ] = approximateData( p, u, lambda, n, k )
+function [ d ] = approximateData( p, n, T, k, lambda, u )
 %APPROXIMATEDATA Approximate 2xm data p with B-spline of degree n with knot
-%vector u, k control points and smoothing factor lambda
+%vector T, k number of control points, smoothing factor lambda and
+%parameter values u
 
 % Get number of data points
 m = size(p,2);
@@ -13,17 +14,17 @@ d = zeros(k,2);
 % Derive error term with respect to control point dl
 for l = 1:k
 
-    % Iterate over knot vector
+    % Iterate over parameter vector
     for j = 1:m
 
         % Iterate over control points
         for i = 1:k
-            A(l,i) = A(l, i) + createMatrixEntry(i, j, l, u, lambda, n, k);   
+            A(l,i) = A(l, i) + createMatrixEntry(i, j, l, T, lambda, n, k, u);   
 
         end
         
         for dim=1:2
-            b(l, dim) = b(l, dim) + N(u, n, l, u(j)) * p(dim, j);
+            b(l, dim) = b(l, dim) + N(T, n, l, u(j)) * p(dim, j);
         end
 
     end
@@ -37,30 +38,30 @@ d = d';
 
 end
 
-function ail = createMatrixEntry(i, j, l, u, lambda, n, k)
-    ail = 2 * lambda * (N(u, n, l-2, u(j)) - 2 * N(u, n, l-1, u(j)) + N(u, n, l, u(j)));
+function ail = createMatrixEntry(i, j, l, T, lambda, n, k, u)
+    ail = 2 * lambda * (N(T, n, l-2, u(j)) - 2 * N(T, n, l-1, u(j)) + N(T, n, l, u(j)));
 
     if i==1
-        ail = ail * N(u, n, 1, u(j));
+        ail = ail * N(T, n, 1, u(j));
     elseif i==2
-        ail = ail * ( N(u, n, 2, u(j)) - 2* N(u, n, 1, u(j)));
+        ail = ail * ( N(T, n, 2, u(j)) - 2* N(T, n, 1, u(j)));
     elseif i==k-1
-        ail = ail * ( N(u, n, k-3, u(j)) - 2* N(u, n, k-2, u(j)));
+        ail = ail * ( N(T, n, k-3, u(j)) - 2* N(T, n, k-2, u(j)));
     elseif i==k
-        ail = ail * N(u, n, k-2, u(j));
+        ail = ail * N(T, n, k-2, u(j));
     else
-        ail = ail * ( N(u, n, i-2, u(j)) - 2* N(u, n, i-1, u(j)) + N(u, n, i, u(j)));
+        ail = ail * ( N(T, n, i-2, u(j)) - 2* N(T, n, i-1, u(j)) + N(T, n, i, u(j)));
     end
 
-    ail = ail + N(u, n, i, u(j)) * N(u, n, l, u(j));
+    ail = ail + N(T, n, i, u(j)) * N(T, n, l, u(j));
 end
 
 
 
-function y = N(u, n, index, t)
+function y = N(T, n, index, t)
     if index<=0
         y =0;
     else
-        y = evaluateBsplineBasis(u, n, index, t);
+        y = evaluateBsplineBasis(T, n, index, t);
     end
 end

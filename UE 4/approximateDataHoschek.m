@@ -1,17 +1,17 @@
-function [ d, uNew ] = approximateDataHoschek( p, u, lambda, n, k, tol, maxIter, debug  )
+function [ d, uNew ] = approximateDataHoschek( p, n, T, k, lambda, u, tol, maxIter, debug  )
 %APPROXIMATEDATAHOSCHEK Approximate 2xm data p with B-spline of degree n with knot
 %vector u, k control points and smoothing factor lambda and performs
 %Hoschek parameter correction until the error vector is orthogonal to
 %spline curve in a up to tolerance tol
 
 % Initial spline curve
-d = approximateData(p, u, lambda, n, k);
-s = bSplinePoint(u, n, d, u);
+d = approximateData(p, n, T, k, lambda, u);
+s = bSplinePoint(T, n, d, u);
 
 if(debug)
     t = 0:0.001:1;
-    curve = bSplinePoint(u, n, d, t);
-    su = bSplinePoint(u,n,d,u);
+    curve = bSplinePoint(T, n, d, t);
+    su = bSplinePoint(T,n,d,u);
 
     figure
     plot(d(1,:), d(2,:), 'ro-.');
@@ -25,7 +25,7 @@ if(debug)
 end
 
 % Error
-sPrime = evalSplinePrime(u, n, u, d);
+sPrime = evalBsplinePrime(T, n, d, u);
 sPrimeNorm = sqrt(sum(sPrime.^2, 1));
 sPrimeNormalized = sPrime./ repmat(sPrimeNorm,2,1);
 sPrimeNormalized(isnan(sPrimeNormalized)) = 0;
@@ -44,15 +44,17 @@ while (max(dot(vNormalized,sPrimeNormalized,1)) > tol && it < maxIter)
     h = (dot(v,sPrimeNormalized,1))./(sPrimeNorm.*sPrimeNorm);
     h(isnan(h)) = 0;
     uNew = u + h;
-    uNew = sort(uNew);
-    uNew = (uNew - uNew(1) )/ ( uNew(end) - uNew(1));
+    uNew(1) = u(1);
+    uNew(size(u, 2)) = u(size(u, 2));
+    %uNew = sort(uNew);
+    %uNew = (uNew - uNew(1) )/ ( uNew(end) - uNew(1));
     
     % Approximate data with corrected parameters
-    d = approximateData(p, uNew, lambda, n, k);
-    s = bSplinePoint(uNew, n, d, uNew);
+    d = approximateData(p, n, T, k, lambda, uNew);
+    s = bSplinePoint(T, n, d, uNew);
     
     % Calculate new error
-    sPrime = evalSplinePrime(uNew, n, uNew, d);
+    sPrime = evalBsplinePrime(T, n, d, uNew);
     sPrimeNorm = sqrt(sum(sPrime.^2, 1));
     sPrimeNormalized = sPrime./ repmat(sPrimeNorm,2,1);
     sPrimeNormalized(isnan(sPrimeNormalized)) = 0;
@@ -67,8 +69,8 @@ while (max(dot(vNormalized,sPrimeNormalized,1)) > tol && it < maxIter)
     
     if(debug)
         t = 0:0.001:1;
-        curve = bSplinePoint(u, n, d, t);
-        su = bSplinePoint(u,n,d,u);
+        curve = bSplinePoint(T, n, d, t);
+        su = bSplinePoint(T,n,d,u);
 
         plot(d(1,:), d(2,:), 'ro-.');
         hold on
@@ -84,23 +86,4 @@ while (max(dot(vNormalized,sPrimeNormalized,1)) > tol && it < maxIter)
     disp(strcat('Error=', num2str(sum(sum(v.^2, 1)))))
 end
 
-end
-
-function sPrime =  evalSplinePrime(u, n, t, d)
-    k = size(d, 2);
-    numPoints = size(t,2);
-    sPrime = zeros(2,numPoints);
-
-    for p = 1:numPoints
-        
-        % Forward operator
-        for i = 1:k-1
-            sPrime(:,p) = sPrime(:,p) + evaluateBsplineBasis(u, n-1, i, t(p)) * (d(:,i+1) - d(:,i)) ;
-        end 
-        
-        if(t(p) == 1)
-            % Last curve point: backward operator
-            sPrime(:,p) = sPrime(:,p) + evaluateBsplineBasis(u, n-1, k, t(p)) * (d(:,k) - d(:,k-1)) ;
-        end
-    end
 end
