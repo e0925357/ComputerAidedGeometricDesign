@@ -1,5 +1,5 @@
 function [ d ] = approximateData( p, n, T, k, lambda, u )
-%APPROXIMATEDATA Approximate 2xm data p with B-spline of degree n with knot
+%APPROXIMATEDATA Approximates data p with B-spline of degree n with knot
 %vector T, k number of control points, smoothing factor lambda and
 %parameter values u
 

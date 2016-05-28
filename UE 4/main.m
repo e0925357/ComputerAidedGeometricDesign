@@ -52,7 +52,7 @@ xlim([0 100])
 hold off
 
 %% B: Parameter correction
-[db, uNew] = approximateDataHoschek(p, n, T, k, lambda, u, 0.001, 100, false);
+[db, uNew] = approximateDataHoschek(p, n, T, k, lambda, u, 0.55, 100, false);
 
 t = 0:0.001:1;
 sb = bSplinePoint(T, n, db, t);

@@ -1,5 +1,5 @@
 function [ d, uNew ] = approximateDataHoschek( p, n, T, k, lambda, u, tol, maxIter, debug  )
-%APPROXIMATEDATAHOSCHEK Approximate 2xm data p with B-spline of degree n with knot
+%APPROXIMATEDATAHOSCHEK Approximates data p with B-spline of degree n with knot
 %vector u, k control points and smoothing factor lambda and performs
 %Hoschek parameter correction until the error vector is orthogonal to
 %spline curve in a up to tolerance tol
@@ -41,7 +41,7 @@ while (max(dot(vNormalized,sPrimeNormalized,1)) > tol && it < maxIter)
     disp(strcat('Start iteration #', num2str(it)))
     
     % Calculate new parameters
-    h = (dot(v,sPrimeNormalized,1))./(sPrimeNorm.*sPrimeNorm);
+    h = (dot(v,sPrime,1))./(sPrimeNorm.*sPrimeNorm);
     h(isnan(h)) = 0;
     uNew = u + h;
     uNew(1) = u(1);
