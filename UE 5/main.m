@@ -7,7 +7,7 @@ clc
 % Data
 [x, y] = meshgrid(1:100,1:100);
 zPure = x.^2 - y.^2;
-error = 0.01*max(max(zPure))*randn(100);
+error = 0.005*max(max(zPure))*randn(100);
 z =  zPure + error;
 nPoints = 50;
 ind = [1 sort(randperm(98,nPoints -2)+1) 100];
@@ -72,5 +72,14 @@ hold off
 %% Task 2: Surface approximation
 
 figure(5)
+subplot(1,2,1)
+title('Approximation')
 sApp = fit([xr(:), yr(:)], zr(:), 'cubicinterp'); 
-plot(sApp, [xr(:), yr(:)], zr(:));
+plot(sApp);
+subplot(1,2,2)
+title('Interpolation')
+surf(permute(s(1,:,:), [2 3 1]), permute(s(2,:,:), [2 3 1]), permute(s(3,:,:), [2 3 1]));
+colormap(spring);
+%colormap([1  1  0; 0  0  1])
+%legend('approximation', 'interpolation')
+
