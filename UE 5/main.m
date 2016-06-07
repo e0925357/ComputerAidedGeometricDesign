@@ -6,10 +6,10 @@ clc
 
 % Data
 [x, y] = meshgrid(1:100,1:100);
-error = randn(100);
 zPure = x.^2 - y.^2;
+error = 0.01*max(max(zPure))*randn(100);
 z =  zPure + error;
-nPoints = 10;
+nPoints = 50;
 ind = [1 sort(randperm(98,nPoints -2)+1) 100];
 xr = x(1:nPoints, ind);
 yr = y(ind, 1:nPoints);
@@ -40,6 +40,8 @@ surf(x, y, z, ones(size(z)));
 hold on
 surf(permute(s(1,:,:), [2 3 1]), permute(s(2,:,:), [2 3 1]), permute(s(3,:,:), [2 3 1]), zeros(size(permute(s(2,:,:), [2 3 1]))));
 colormap(winter);
+legend('original data','interpolation');
+hold off
 
 % Compare with sampled data
 figure(2)
@@ -48,6 +50,8 @@ plot3(xr(:), yr(:), zr(:), 'r.', 'MarkerSize', 5);
 hold on
 surf(permute(s(1,:,:), [2 3 1]), permute(s(2,:,:), [2 3 1]), permute(s(3,:,:), [2 3 1]), zeros(size(permute(s(2,:,:), [2 3 1]))));
 colormap(winter);
+legend('sampled data','interpolation');
+hold off
 
 figure(3)
 surf(xr, yr, zr, ones(size(zr)));
@@ -55,11 +59,18 @@ surf(xr, yr, zr, ones(size(zr)));
 hold on
 surf(permute(s(1,:,:), [2 3 1]), permute(s(2,:,:), [2 3 1]), permute(s(3,:,:), [2 3 1]), zeros(size(permute(s(2,:,:), [2 3 1]))));
 colormap(winter);
+legend('sampled data','interpolation');
+hold off
 
 figure(4)
-surf(x, y, z, zeros(size(z)));
+surf(xr, yr, zr, zeros(size(zr)));
 hold on
 surf(x, y, zPure, ones(size(zPure)));
 colormap(winter);
+legend('sampled data','data without noise');
+hold off
 %% Task 2: Surface approximation
 
+figure(5)
+sApp = fit([xr(:), yr(:)], zr(:), 'cubicinterp'); 
+plot(sApp, [xr(:), yr(:)], zr(:));
